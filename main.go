@@ -1,6 +1,7 @@
 package main
 
 import (
+	"math/rand"
 	"net/http"
 	"strconv"
 
@@ -13,7 +14,7 @@ func sumNumbers(context *gin.Context) {
 
 	if err1 != nil || err2 != nil {
 		context.IndentedJSON(http.StatusBadRequest, gin.H{
-			"error": "Invalid numbers provided",
+			"error": "Invalid numbers",
 		})
 		return
 	}
@@ -25,8 +26,32 @@ func sumNumbers(context *gin.Context) {
 	})
 }
 
+func helloServer(context *gin.Context) {
+	context.JSON(http.StatusOK, gin.H{
+		"Message": "HI YOU!",
+	})
+}
+
+func randomNumber(context *gin.Context) {
+	maximunNbr, err := strconv.Atoi(context.Param("maxRand"))
+
+	if err != nil || maximunNbr <= 0 {
+		context.IndentedJSON(http.StatusBadRequest, gin.H{
+			"error": "Invalid number",
+		})
+		return
+	}
+	randNbr := rand.Intn(maximunNbr) + 1
+
+	context.JSON(http.StatusOK, gin.H{
+		"Random Number": randNbr,
+	})
+}
+
 func main() {
 	var router *gin.Engine = gin.Default()
 	router.GET("/sum/:numberFrst/:numberSnd", sumNumbers)
+	router.GET("/hi", helloServer)
+	router.GET("/random/:maxRand", randomNumber)
 	router.Run(":8080")
 }
