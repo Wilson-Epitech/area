@@ -4,14 +4,12 @@ import { ArrowLeft, Plus } from "lucide-react";
 
 export const RegisterForm = () => {
   return (
-    <div
-      className="flex items-center justify-center min-h-screen bg-[#F9FAFB]"
-      style={{ fontFamily: 'Nunito, sans-serif' }}
-    >
-      <div className="relative flex w-full max-w-[480px] flex-col rounded-lg bg-white shadow-sm p-6">
+    <div className="flex items-center justify-center min-h-screen bg-[#F9FAFB]">
+      <div className="relative flex w-full max-w-[480px] flex-col rounded-lg bg-white shadow-sm p-6 mt-24 mb-24">
+
         <div className="relative mt-5 items-center flex flex-col justify-center">
           <h1
-            className="text-[2.7rem] font-[900] text-black">
+            className=" text-[2.7rem] font-[900] text-black">
               Sign up
           </h1>
         </div>
@@ -44,31 +42,32 @@ export const RegisterForm = () => {
         </div>
 
         <button
-          className="w-full h-[75px] bg-[#E84A4A] text-white text-[1.6rem] rounded-full hover:bg-[#F55B5B] mt-6 font-[900] flex items-center justify-center">
+          className="w-full h-[75px] bg-[#E84A4A] text-white text-[1.6rem] rounded-full hover:bg-[#F55B5B] mt-6 font-[900] flex items-center justify-center relative">
           <FontAwesomeIcon
             icon={faGoogle}
-            className="mr-3 size-8"/>
-              Continue with Google
+            className="absolute left-6 size-8"/>
+          <span className="flex justify-center items-center w-full ml-4">Continue with Google</span>
         </button>
         <button
-          className="w-full h-[75px] bg-[#3B579D] text-white text-[1.6rem] rounded-full hover:bg-[#4C6AAE] mt-4 font-[900] flex items-center justify-center">
+          className="w-full h-[75px] bg-[#3B579D] text-white text-[1.6rem] rounded-full hover:bg-[#4C6AAE] mt-4 font-[900] flex items-center justify-center relative">
           <FontAwesomeIcon
             icon={faFacebookF}
-            className="mr-3 size-8"/>
-              Continue with Facebook
-        </button>
-        <button className="w-full h-[75px] bg-[#A9A9A9] text-white text-[1.6rem] rounded-full hover:bg-[#B8B8B8] mt-4 font-[900] flex items-center justify-center">
-          <FontAwesomeIcon
-            icon={faXTwitter}
-            className="mr-3 size-8"/>
-              Continue with X
+            className="absolute left-6 size-8"/>
+          <span className="flex justify-center items-center w-full ml-4">Continue with Facebook</span>
         </button>
         <button
-          className="w-full h-[75px] bg-[#222222] text-white text-[1.6rem] rounded-full hover:bg-[#333333] mt-4 font-[900] flex items-center justify-center">
+          className="w-full h-[75px] bg-[#A9A9A9] text-white text-[1.6rem] rounded-full hover:bg-[#B8B8B8] mt-4 font-[900] flex items-center justify-center relative">
+          <FontAwesomeIcon
+            icon={faXTwitter}
+            className="absolute left-[27px] size-8"/>
+          <span className="flex justify-center items-center w-full">Continue with X</span>
+        </button>
+        <button
+          className="w-full h-[75px] bg-[#222222] text-white text-[1.6rem] rounded-full hover:bg-[#333333] mt-4 font-[900] flex items-center justify-center relative">
           <FontAwesomeIcon
             icon={faApple}
-            className="mr-3 size-8"/>
-              Continue with Apple
+            className="absolute left-[20px] size-11"/>
+          <span className="flex justify-center items-center w-full mt-1 ml-4">Continue with Apple</span>
         </button>
 
         <div
