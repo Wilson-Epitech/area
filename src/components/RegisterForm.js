@@ -18,12 +18,12 @@ export const RegisterForm = () => {
           <input
             type="email"
             placeholder="Email"
-            className="w-full px-4 h-[4.8rem] mb-3 border-[7px] rounded-[15px] border-[#EEEEEE] focus:outline-none focus:border-black placeholder-[#C8C8C8] font-[900]"
+            className="w-full px-4 h-[4.8rem] mb-3 border-[7px] rounded-[15px] border-[#EEEEEE] focus:outline-none focus:border-black placeholder-[#C8C8C8] font-[900] text-[25px] leading-7"
           />
           <input
             type="password"
             placeholder="Password"
-            className="w-full px-4 h-[4.8rem] mt-2.5 border-[7px] rounded-[15px] border-[#EEEEEE] focus:outline-none focus:border-black placeholder-[#C8C8C8] font-[900]"
+            className="w-full px-4 h-[4.8rem] mt-2.5 border-[7px] rounded-[15px] border-[#EEEEEE] focus:outline-none focus:border-black placeholder-[#C8C8C8] font-[900] text-[25px] leading-7"
           />
 
           <button
