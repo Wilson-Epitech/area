@@ -90,6 +90,19 @@ func findUserByEmail(db *sql.DB, email string) (User, error) {
 	return retrievedUser, err
 }
 
+
+func findServiceByName(db *sql.DB, name string) (Service, error) {
+	var retrievedService Service
+	sqlStatement := `SELECT * FROM services where name = ($1)`
+
+    row := db.QueryRow(sqlStatement, name)
+	err := row.Scan(&retrievedService.id, &retrievedService.name)
+	if err == sql.ErrNoRows {
+		return retrievedService, fmt.Errorf("no rows in result set")
+	}
+	return retrievedService, err
+}
+
 func main() {
 	db, err := connectToDatabase()
 	if err != nil {
