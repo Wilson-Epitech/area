@@ -43,6 +43,17 @@ func connectToDatabase() (*sql.DB, error) {
 	return db, err
 }
 
+func createUser(db *sql.DB, username string, email string, password string) {
+	sqlStatement := `
+    INSERT INTO users (username, email, password)
+    VALUES ($1, $2, $3);
+    `
+    _, err := db.Exec(sqlStatement, username, email, password)
+    if err != nil {
+      panic(err)
+    }
+}
+
 func main() {
 	db, err := connectToDatabase()
 	if err != nil {
