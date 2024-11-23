@@ -16,6 +16,12 @@ type User struct {
 	createdAt string
 }
 
+
+type Service struct {
+	id string
+	name string
+}
+
 func retrieveDatabaseInfos() (string, int, string, string, string, error) {
 	port, err := strconv.Atoi(os.Getenv("PGPORT"))
 	if err != nil {
@@ -61,30 +67,6 @@ func createUser(db *sql.DB, email string, password string) {
     }
 }
 
-func findUserByEmail(db *sql.DB, email string) (User, error) {
-	var retrievedUser User
-	sqlStatement := `SELECT * FROM users where email = ($1)`
-    rows, err := db.Query(sqlStatement, email)
-
-    if err != nil {
-      panic(err)
-    }
-	defer rows.Close()
-
-	for rows.Next() {
-		err := rows.Scan(&retrievedUser.id, &retrievedUser.email,
-			&retrievedUser.password, &retrievedUser.createdAt)
-		if err != nil {
-			panic(err)
-		}
-	}
-	err = rows.Err()
-	if err != nil {
-		panic(err)
-	}
-	return retrievedUser, err
-}
-
 func createService(db *sql.DB, name string) {
 	sqlStatement := `
     INSERT INTO services (name)
@@ -94,6 +76,18 @@ func createService(db *sql.DB, name string) {
     if err != nil {
       panic(err)
     }
+}
+
+func findUserByEmail(db *sql.DB, email string) (User, error) {
+	var retrievedUser User
+	sqlStatement := `SELECT * FROM users where email = ($1)`
+
+    row := db.QueryRow(sqlStatement, email)
+	err := row.Scan(&retrievedUser.id, &retrievedUser.email, &retrievedUser.password, &retrievedUser.createdAt)
+	if err == sql.ErrNoRows {
+		return retrievedUser, fmt.Errorf("no rows in result set")
+	}
+	return retrievedUser, err
 }
 
 func main() {
