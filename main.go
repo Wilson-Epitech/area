@@ -54,6 +54,17 @@ func createUser(db *sql.DB, username string, email string, password string) {
     }
 }
 
+func createService(db *sql.DB, name string) {
+	sqlStatement := `
+    INSERT INTO services (name)
+    VALUES ($1);
+    `
+    _, err := db.Exec(sqlStatement, name)
+    if err != nil {
+      panic(err)
+    }
+}
+
 func main() {
 	db, err := connectToDatabase()
 	if err != nil {
