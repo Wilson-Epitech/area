@@ -11,7 +11,6 @@ import (
 
 type User struct {
 	id string
-	username string
 	email string
 	password string
 	createdAt string
@@ -51,21 +50,21 @@ func connectToDatabase() (*sql.DB, error) {
 	return db, err
 }
 
-func createUser(db *sql.DB, username string, email string, password string) {
+func createUser(db *sql.DB, email string, password string) {
 	sqlStatement := `
-    INSERT INTO users (username, email, password)
+    INSERT INTO users (email, password)
     VALUES ($1, $2, $3);
     `
-    _, err := db.Exec(sqlStatement, username, email, password)
+    _, err := db.Exec(sqlStatement, email, password)
     if err != nil {
       panic(err)
     }
 }
 
-func findUserByUsername(db *sql.DB, username string) (User, error) {
+func findUserByEmail(db *sql.DB, email string) (User, error) {
 	var retrievedUser User
-	sqlStatement := `SELECT * FROM users where username = ($1)`
-    rows, err := db.Query(sqlStatement, username)
+	sqlStatement := `SELECT * FROM users where email = ($1)`
+    rows, err := db.Query(sqlStatement, email)
 
     if err != nil {
       panic(err)
@@ -73,7 +72,7 @@ func findUserByUsername(db *sql.DB, username string) (User, error) {
 	defer rows.Close()
 
 	for rows.Next() {
-		err := rows.Scan(&retrievedUser.id, &retrievedUser.username, &retrievedUser.email,
+		err := rows.Scan(&retrievedUser.id, &retrievedUser.email,
 			&retrievedUser.password, &retrievedUser.createdAt)
 		if err != nil {
 			panic(err)
