@@ -9,6 +9,14 @@ import (
 	_ "github.com/lib/pq"
 )
 
+type User struct {
+	id string
+	username string
+	email string
+	password string
+	createdAt string
+}
+
 func retrieveDatabaseInfos() (string, int, string, string, string, error) {
 	port, err := strconv.Atoi(os.Getenv("PGPORT"))
 	if err != nil {
@@ -52,6 +60,30 @@ func createUser(db *sql.DB, username string, email string, password string) {
     if err != nil {
       panic(err)
     }
+}
+
+func findUserByUsername(db *sql.DB, username string) (User, error) {
+	var retrievedUser User
+	sqlStatement := `SELECT * FROM users where username = ($1)`
+    rows, err := db.Query(sqlStatement, username)
+
+    if err != nil {
+      panic(err)
+    }
+	defer rows.Close()
+
+	for rows.Next() {
+		err := rows.Scan(&retrievedUser.id, &retrievedUser.username, &retrievedUser.email,
+			&retrievedUser.password, &retrievedUser.createdAt)
+		if err != nil {
+			panic(err)
+		}
+	}
+	err = rows.Err()
+	if err != nil {
+		panic(err)
+	}
+	return retrievedUser, err
 }
 
 func createService(db *sql.DB, name string) {
