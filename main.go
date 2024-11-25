@@ -35,6 +35,16 @@ type Action struct {
 	description string
 }
 
+type Workflow struct {
+	id string
+	name string
+	ownerId string
+	actionId string
+	triggerId string
+	isActivated bool
+	createdAt string
+}
+
 func retrieveDatabaseInfos() (string, int, string, string, string, error) {
 	port, err := strconv.Atoi(os.Getenv("PGPORT"))
 	if err != nil {
@@ -93,28 +103,52 @@ func createService(db *sql.DB, name string) error {
 	return nil
 }
 
-func createTrigger(db *sql.DB, serviceName string, name string, description string) error {
+func createTrigger(db *sql.DB, name string, description string, serviceName string) error {
 	retrievedService, err := findServiceByName(db, serviceName)
 	if err != nil {
 		return err
 	}
 
-	sqlStatement := `INSERT INTO triggers (serviceid, name, description) VALUES ($1, $2, $3);`
-    _, err = db.Exec(sqlStatement, retrievedService.id, name, description)
+	sqlStatement := `INSERT INTO triggers (name, description, serviceid) VALUES ($1, $2, $3);`
+    _, err = db.Exec(sqlStatement, name, description, retrievedService.id)
     if err != nil {
     	return err
     }
 	return nil
 }
 
-func createAction(db *sql.DB, serviceName string, name string, description string) error {
+func createAction(db *sql.DB, name string, description string, serviceName string) error {
 	retrievedService, err := findServiceByName(db, serviceName)
 	if err != nil {
 		return err
 	}
 
-	sqlStatement := `INSERT INTO actions (serviceid, name, description) VALUES ($1, $2, $3);`
-    _, err = db.Exec(sqlStatement, retrievedService.id, name, description)
+	sqlStatement := `INSERT INTO actions (name, description, serviceid) VALUES ($1, $2, $3);`
+    _, err = db.Exec(sqlStatement, name, description, retrievedService.id)
+    if err != nil {
+    	return err
+    }
+	return nil
+}
+
+func createWorkflow(db *sql.DB, name string, ownerEmail string, triggerName string, actionName string) error {
+	retrievedUser, err := findUserByEmail(db, ownerEmail)
+	if err != nil {
+		return err
+	}
+
+	retrievedTrigger, err := findTriggerByName(db, triggerName)
+	if err != nil {
+		return err
+	}
+
+	retrievedAction, err := findActionByName(db, actionName)
+	if err != nil {
+		return err
+	}
+
+	sqlStatement := `INSERT INTO workflows (name, ownerid, triggerid, actionid, isactivated) VALUES ($1, $2, $3, $4, $5);`
+    _, err = db.Exec(sqlStatement, name, retrievedUser.id, retrievedTrigger.id, retrievedAction.id, true)
     if err != nil {
     	return err
     }
