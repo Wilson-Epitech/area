@@ -56,26 +56,28 @@ func connectToDatabase() (*sql.DB, error) {
 	return db, err
 }
 
-func createUser(db *sql.DB, email string, password string) {
+func createUser(db *sql.DB, email string, password string) error {
 	sqlStatement := `
     INSERT INTO users (email, password)
-    VALUES ($1, $2, $3);
+    VALUES ($1, $2);
     `
     _, err := db.Exec(sqlStatement, email, password)
     if err != nil {
-      panic(err)
+      return err
     }
+	return nil
 }
 
-func createService(db *sql.DB, name string) {
+func createService(db *sql.DB, name string) error {
 	sqlStatement := `
     INSERT INTO services (name)
     VALUES ($1);
     `
     _, err := db.Exec(sqlStatement, name)
     if err != nil {
-      panic(err)
+		return err
     }
+	return nil
 }
 
 func findUserByEmail(db *sql.DB, email string) (User, error) {
@@ -83,13 +85,12 @@ func findUserByEmail(db *sql.DB, email string) (User, error) {
 	sqlStatement := `SELECT * FROM users where email = ($1)`
 
     row := db.QueryRow(sqlStatement, email)
-	err := row.Scan(&retrievedUser.id, &retrievedUser.email, &retrievedUser.password, &retrievedUser.createdAt)
-	if err == sql.ErrNoRows {
-		return retrievedUser, fmt.Errorf("no rows in result set")
+	err := row.Scan(&retrievedUser.email, &retrievedUser.password, &retrievedUser.id, &retrievedUser.createdAt)
+	if err != nil {
+		return retrievedUser, err
 	}
-	return retrievedUser, err
+	return retrievedUser, nil
 }
-
 
 func findServiceByName(db *sql.DB, name string) (Service, error) {
 	var retrievedService Service
@@ -97,10 +98,10 @@ func findServiceByName(db *sql.DB, name string) (Service, error) {
 
     row := db.QueryRow(sqlStatement, name)
 	err := row.Scan(&retrievedService.id, &retrievedService.name)
-	if err == sql.ErrNoRows {
-		return retrievedService, fmt.Errorf("no rows in result set")
+	if err != nil {
+		return retrievedService, err
 	}
-	return retrievedService, err
+	return retrievedService, nil
 }
 
 func main() {
