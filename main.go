@@ -16,10 +16,23 @@ type User struct {
 	createdAt string
 }
 
-
 type Service struct {
 	id string
 	name string
+}
+
+type Trigger struct {
+	id string
+	serviceId string
+	name string
+	description string
+}
+
+type Action struct {
+	id string
+	serviceId string
+	name string
+	description string
 }
 
 func retrieveDatabaseInfos() (string, int, string, string, string, error) {
@@ -130,6 +143,30 @@ func findServiceByName(db *sql.DB, name string) (Service, error) {
 		return retrievedService, err
 	}
 	return retrievedService, nil
+}
+
+func findTriggerByName(db *sql.DB, name string) (Trigger, error) {
+	var retrievedTrigger Trigger
+	sqlStatement := `SELECT * FROM triggers where name = ($1)`
+
+    row := db.QueryRow(sqlStatement, name)
+	err := row.Scan(&retrievedTrigger.id, &retrievedTrigger.serviceId, &retrievedTrigger.name, &retrievedTrigger.description)
+	if err != nil {
+		return retrievedTrigger, err
+	}
+	return retrievedTrigger, nil
+}
+
+func findActionByName(db *sql.DB, name string) (Action, error) {
+	var retrievedAction Action
+	sqlStatement := `SELECT * FROM actions where name = ($1)`
+
+    row := db.QueryRow(sqlStatement, name)
+	err := row.Scan(&retrievedAction.id, &retrievedAction.serviceId, &retrievedAction.name, &retrievedAction.description)
+	if err != nil {
+		return retrievedAction, err
+	}
+	return retrievedAction, nil
 }
 
 func main() {
