@@ -23,16 +23,16 @@ type Service struct {
 
 type Trigger struct {
 	id string
-	serviceId string
 	name string
 	description string
+	serviceId string
 }
 
 type Action struct {
 	id string
-	serviceId string
 	name string
 	description string
+	serviceId string
 }
 
 type Workflow struct {
@@ -201,6 +201,19 @@ func findActionByName(db *sql.DB, name string) (Action, error) {
 		return retrievedAction, err
 	}
 	return retrievedAction, nil
+}
+
+func findWorkflowByName(db *sql.DB, name string) (Workflow, error) {
+	var retrievedWorkflow Workflow
+	sqlStatement := `SELECT * FROM workflows where name = ($1)`
+
+    row := db.QueryRow(sqlStatement, name)
+	err := row.Scan(&retrievedWorkflow.id, &retrievedWorkflow.name, &retrievedWorkflow.ownerId, &retrievedWorkflow.actionId,
+		&retrievedWorkflow.triggerId, &retrievedWorkflow.isActivated, &retrievedWorkflow.createdAt)
+	if err != nil {
+		return retrievedWorkflow, err
+	}
+	return retrievedWorkflow, nil
 }
 
 func main() {
