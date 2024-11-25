@@ -1,0 +1,1 @@
+ /home/mathis/tek3/all_area/area/.dart_tool/flutter_build/e5ff4116196f6d290fd97568c5af2121/native_assets.yaml: 
