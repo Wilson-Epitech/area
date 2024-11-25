@@ -94,6 +94,20 @@ func createTrigger(db *sql.DB, serviceName string, name string, description stri
 	return nil
 }
 
+func createAction(db *sql.DB, serviceName string, name string, description string) error {
+	retrievedService, err := findServiceByName(db, serviceName)
+	if err != nil {
+		return err
+	}
+
+	sqlStatement := `INSERT INTO actions (serviceid, name, description) VALUES ($1, $2, $3);`
+    _, err = db.Exec(sqlStatement, retrievedService.id, name, description)
+    if err != nil {
+    	return err
+    }
+	return nil
+}
+
 func findUserByEmail(db *sql.DB, email string) (User, error) {
 	var retrievedUser User
 	sqlStatement := `SELECT * FROM users where email = ($1)`
@@ -125,4 +139,3 @@ func main() {
 	}
 	defer db.Close()
 }
-
