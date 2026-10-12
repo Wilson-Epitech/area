@@ -22,5 +22,5 @@ jobs:
       - name: Build web client
         working-directory: frontend
         run: |
-          npm ci
+          npm install
           npm run build
