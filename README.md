@@ -14,7 +14,7 @@
 
 <p align="center"><img src=".github/assets/area-explore.png" alt="AREA" width="820"/></p>
 
-## En deux mots
+## Le projet en quelques mots
 
 Un clone de Zapier / IFTTT fait à quatre en deux mois. On connecte ses comptes (GitHub, Spotify, Discord…) et on crée des **workflows** : « quand une issue est ouverte sur GitHub, envoie un message sur Discord ». Un serveur en Go, un client web en React et une appli mobile en Flutter, le tout lancé avec Docker Compose.
 
@@ -31,19 +31,6 @@ Un clone de Zapier / IFTTT fait à quatre en deux mois. On connecte ses comptes 
 
 <p align="center"><img src=".github/assets/area-login.png" alt="Connexion avec OAuth2" width="760"/></p>
 <p align="center"><sub>Connexion avec OAuth2</sub></p>
-
-## Sous le capot
-
-Le backend Go suit une architecture en couches (`handler` → `service` → `storage`) au-dessus de PostgreSQL. Chaque service tiers implémente ses actions et ses réactions, et les tokens OAuth sont stockés par utilisateur. Le client web (React + TypeScript + Vite) et l'appli Flutter consomment la même API REST. Toute l'équipe travaillait en branches et en pull requests, avec une CI GitHub Actions et une analyse SonarQube.
-
-```mermaid
-flowchart LR
-    W[Client web<br/>React + Vite] --> API
-    M[App mobile<br/>Flutter] --> API
-    API[API REST<br/>Go] --> DB[(PostgreSQL)]
-    API -- OAuth2 --> S[GitHub · Spotify · Discord<br/>Reddit · Dropbox · …]
-    API -- actions / réactions --> S
-```
 
 ## Lancer le projet
 
@@ -63,4 +50,4 @@ La documentation technique complète est dans [DOCUMENTATION.md](DOCUMENTATION.m
 
 Eva Legrand, Wilson Bordichon, Yanis Harkouk, Mathis Brehm
 
-**Ma part :** J'ai surtout travaillé sur le **client web** : la migration du POC de Next.js vers Vite, la page de création de workflows, « Mes workflows », les pages de connexion, de compte et de services, la barre de navigation et la CI du frontend.
+**Ma partition :** J'ai surtout travaillé sur le **client web** : la migration du POC de Next.js vers Vite, la page de création de workflows, « Mes workflows », les pages de connexion, de compte et de services, la barre de navigation et la CI du frontend.
