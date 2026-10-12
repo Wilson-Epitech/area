@@ -1,50 +1,66 @@
-![Static Badge](https://img.shields.io/badge/backend-golang-blue)
-![Static Badge](https://img.shields.io/badge/web-react-red)
-![Static Badge](https://img.shields.io/badge/mobile-flutter-purple)
-![Static Badge](https://img.shields.io/badge/containerization-docker-yellow)
-
-[![Quality Gate Status](http://mathisbrehm.fr:9000/api/project_badges/measure?project=AREA&metric=alert_status&token=REMOVED)](http://mathisbrehm.fr:9000/dashboard?id=AREA)
-[![Security Rating](http://mathisbrehm.fr:9000/api/project_badges/measure?project=AREA&metric=security_rating&token=REMOVED)](http://mathisbrehm.fr:9000/dashboard?id=AREA)
-[![Maintainability Rating](http://mathisbrehm.fr:9000/api/project_badges/measure?project=AREA&metric=sqale_rating&token=REMOVED)](http://mathisbrehm.fr:9000/dashboard?id=AREA)
+<div align="center">
 
 # AREA
 
-AREA is an application development project designed to replicate the functionality of IFTTT. Its principle is straightforward: connecting actions and reactions across different services to automate workflows.
+**Connecte tes applis entre elles : quand il se passe quelque chose ici, déclenche une action là-bas.**
 
-## Project Description
+<img alt="Go" src="https://img.shields.io/badge/Go-00ADD8?style=for-the-badge&logo=go&logoColor=white"/> <img alt="PostgreSQL" src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white"/> <img alt="React" src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=white"/> <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white"/> <img alt="Vite" src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white"/> <img alt="Tailwind" src="https://img.shields.io/badge/Tailwind-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white"/> <img alt="Flutter" src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white"/> <img alt="Docker" src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white"/> <img alt="GitHub Actions" src="https://img.shields.io/badge/GitHub%20Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white"/> <img alt="SonarQube" src="https://img.shields.io/badge/SonarQube-4E9BCD?style=for-the-badge&logo=sonarqube&logoColor=white"/>
 
-AREA's sole purpose is to make your life easier by automating tasks that can be troublesome or easily forgotten. For example, if you need to send yourself a weekly email to remind you to clean your desk, AREA can handle this task automatically.
+<sub>Projet à 4 · 2024 – 2025</sub>
 
+</div>
 
-> [!NOTE]
-> Our product is friendly to the visually impared and the color blind.
+<br/>
 
-## Installation
+<p align="center"><img src=".github/assets/area-explore.png" alt="AREA" width="820"/></p>
 
-Our project relies on a Docker container to build. You only have to run these two commands to launch AREA:
+## En deux mots
 
-```bash
-sudo docker-compose build
+Un clone de Zapier / IFTTT fait à quatre en deux mois. On connecte ses comptes (GitHub, Spotify, Discord…) et on crée des **workflows** : « quand une issue est ouverte sur GitHub, envoie un message sur Discord ». Un serveur en Go, un client web en React et une appli mobile en Flutter, le tout lancé avec Docker Compose.
+
+## Ce que ça fait
+
+- **Une quinzaine de services** : GitHub, GitLab, Spotify, Discord, Reddit, Dropbox, Asana, LinkedIn, Google, météo, minuteur, e-mail, SMS (Twilio)…
+- **Connexion OAuth2** aux services, et aussi pour se connecter à l'app
+- **Éditeur de workflows** : on choisit une action, une réaction, et les champs se remplissent selon le service
+- Un client **web** et une appli **mobile** branchés sur la même API
+- Doc développeur pour ajouter un service, une action ou une réaction
+
+<p align="center"><img src=".github/assets/area-create.png" alt="Création d'un workflow « If This, Then That »" width="760"/></p>
+<p align="center"><sub>Création d'un workflow « If This, Then That »</sub></p>
+
+<p align="center"><img src=".github/assets/area-login.png" alt="Connexion avec OAuth2" width="760"/></p>
+<p align="center"><sub>Connexion avec OAuth2</sub></p>
+
+## Sous le capot
+
+Le backend Go suit une architecture en couches (`handler` → `service` → `storage`) au-dessus de PostgreSQL. Chaque service tiers implémente ses actions et ses réactions, et les tokens OAuth sont stockés par utilisateur. Le client web (React + TypeScript + Vite) et l'appli Flutter consomment la même API REST. Toute l'équipe travaillait en branches et en pull requests, avec une CI GitHub Actions et une analyse SonarQube.
+
+```mermaid
+flowchart LR
+    W[Client web<br/>React + Vite] --> API
+    M[App mobile<br/>Flutter] --> API
+    API[API REST<br/>Go] --> DB[(PostgreSQL)]
+    API -- OAuth2 --> S[GitHub · Spotify · Discord<br/>Reddit · Dropbox · …]
+    API -- actions / réactions --> S
 ```
 
+## Lancer le projet
+
 ```bash
-sudo docker-compose up
+cp backend/.env.example backend/.env      # renseigner PostgreSQL et les clés OAuth des services
+docker compose up --build
+# web : http://localhost:8081  ·  API : http://localhost:8080
 ```
 
-> [!NOTE]
-> If not working, make sure that your docker is running and that no other container is running on the port 8080 or 8081
+> Les captures ont été prises en local avec une API simulée, puisqu'il faut une base PostgreSQL et des clés OAuth pour faire tourner la vraie.
 
-## Documentation
+La documentation technique complète est dans [DOCUMENTATION.md](DOCUMENTATION.md).
 
-- The user documentation for web version -> [`Web User Documentation`](docs/webUserDocumentation.pdf)
-- The user documentation for mobile version -> [`Mobile User Documentation`](docs/mobileUserDocumentation.pdf)
-- Implement a new service, action, reaction -> [`Developer Documentation`](backend/README.md)
-- Database structure and relationships -> [`Conceptual Data Model`](backend/docs/conceptualDataModel.pdf)
-- REST API overview -> [`REST API Diagram`](backend/docs/restAPIDiagram.pdf)
+## L'équipe
 
-## Authors
+<a href="https://github.com/Wilson-Epitech/area/graphs/contributors"><img src="https://contrib.rocks/image?repo=Wilson-Epitech/area" alt="Contributeurs"/></a>
 
-* **Mathis Brehm** - [@Mathis Brehm](https://github.com/mathisbdkr)
-* **Eva Legrand** - [@Eva Legrand](https://github.com/Chaegnal)
-* **Wilson Bordichon** - [@Wilson Bordichon](https://github.com/Wilson-Epitech)
-* **Yanis Harkouk** - [@Yanis Harkouk](https://github.com/yanishk)
+Eva Legrand, Wilson Bordichon, Yanis Harkouk, Mathis Brehm
+
+**Ma part :** J'ai surtout travaillé sur le **client web** : la migration du POC de Next.js vers Vite, la page de création de workflows, « Mes workflows », les pages de connexion, de compte et de services, la barre de navigation et la CI du frontend.
