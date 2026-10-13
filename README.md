@@ -35,12 +35,9 @@ Un clone de Zapier / IFTTT fait à quatre en deux mois. On connecte ses comptes 
 ## Lancer le projet
 
 ```bash
-cp backend/.env.example backend/.env      # renseigner PostgreSQL et les clés OAuth des services
+cp backend/.env.example backend/.env
 docker compose up --build
-# web : http://localhost:8081  ·  API : http://localhost:8080
 ```
-
-> Les captures ont été prises en local avec une API simulée, puisqu'il faut une base PostgreSQL et des clés OAuth pour faire tourner la vraie.
 
 La documentation technique complète est dans [DOCUMENTATION.md](DOCUMENTATION.md).
 
