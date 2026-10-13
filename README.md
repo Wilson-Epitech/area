@@ -47,4 +47,4 @@ La documentation technique complète est dans [DOCUMENTATION.md](DOCUMENTATION.m
 
 Eva Legrand, Wilson Bordichon, Yanis Harkouk, Mathis Brehm
 
-**Ma partition :** J'ai surtout travaillé sur le **client web** : la migration du POC de Next.js vers Vite, la page de création de workflows, « Mes workflows », les pages de connexion, de compte et de services, la barre de navigation et la CI du frontend.
+**Ma partition :** J'ai développé **le client web** : l'architecture React + TypeScript (migration du POC de Next.js vers Vite), l'éditeur de workflows et ses composants, les pages « Mes workflows », détail d'un workflow, Explore, services et connexion aux services, l'authentification (connexion, inscription, OAuth), le compte et le changement de mot de passe, la barre de navigation, les composants réutilisables, et la CI du frontend.
